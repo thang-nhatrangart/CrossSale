@@ -1,0 +1,255 @@
+$primary: #0085ba;
+$transition: all 0.3s;
+
+@mixin fbv-i-folder($color) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='#{$color}' d='M10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6H12L10,4Z' /%3E%3C/svg%3E");
+}
+
+@mixin square($size, $circle: 0) {
+  height: $size;
+  width: $size;
+
+  @if $circle !=0 {
+    border-radius: $size;
+  }
+}
+
+@keyframes rotate360 {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dotLoad {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.1;
+  }
+}
+
+.fbv-icon {
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  display: inline-block;
+  @include square(1em);
+}
+
+.fbv-i-folder {
+  @include fbv-i-folder(#fff);
+}
+
+.fbv-ads {
+  &-wrap {
+    bottom: 30px;
+    position: fixed;
+    right: 30px;
+    transition: $transition;
+    transition-delay: 0.5s;
+    user-select: none;
+    z-index: 100000;
+
+    &.fbv_permanent_hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  &-link {
+    color: #a1a1a1;
+    text-decoration: none;
+
+    &:hover,
+    &:focus,
+    &:active {
+      box-shadow: none;
+      color: #a1a1a1;
+      opacity: 0.8;
+      outline: none;
+    }
+  }
+
+  &-popup {
+    cursor: pointer;
+  }
+
+  &-icon-wrap {
+    background-color: $primary;
+    box-shadow: 0 6px 10px 2px rgba(0, 0, 0, 0.1);
+    line-height: 1;
+    position: relative;
+    @include square(56px, 1);
+
+    i {
+      $icon-size: 32px;
+      color: #fff;
+      font-size: $icon-size;
+      left: 50%;
+      margin-left: -$icon-size/2;
+      margin-top: -$icon-size/2;
+      position: absolute;
+      top: 50%;
+      transition: $transition;
+
+      &.fbv-icon {
+        .fbv-ads-popup-open & {
+          opacity: 0;
+          transform: scale(0);
+        }
+      }
+
+      &.dashicons {
+        opacity: 0;
+        transform: scale(0);
+        @include square(auto);
+
+        .fbv-ads-popup-open & {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+    }
+  }
+
+  &-sub {
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.1);
+    color: $primary;
+    font-size: 14px;
+    font-weight: 500;
+    margin: -13px 10px 0 0;
+    padding: 4px 12px;
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transition: $transition;
+    white-space: nowrap;
+
+    .fbv-ads-popup-open & {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      visibility: hidden;
+    }
+  }
+
+  &-window {
+    background-color: #fff;
+    border-radius: 3px;
+    bottom: 100%;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.05);
+    margin-bottom: 10px;
+    opacity: 0;
+    pointer-events: none;
+    position: absolute;
+    right: -5px;
+    transform: translateY(10px);
+    transition: $transition;
+    visibility: hidden;
+    width: 360px;
+
+    &-mess {
+      background-color: $primary;
+      border-radius: 3px 3px 0 0;
+      color: #fff;
+      padding: 15px 20px;
+
+      h3 {
+        color: #fff;
+        margin: 0 0 10px;
+      }
+
+      span {
+        line-height: 1.5;
+        opacity: 0.9;
+      }
+    }
+
+    &-img-wrap {
+      padding: 20px;
+
+      img {
+        max-width: 100%;
+      }
+    }
+
+    &-btn {
+      padding: 5px 20px 25px;
+      text-align: center;
+
+      .button-primary {
+        align-items: center;
+        display: inline-flex;
+        font-weight: 500;
+        height: 42px;
+        justify-content: center;
+        margin-bottom: 10px;
+        max-width: 100%;
+        padding: 0;
+        width: 162px;
+
+        &,
+        &:hover,
+        &:focus,
+        &:active {
+          box-shadow: none;
+          outline: none;
+        }
+
+        i {
+          margin-right: 8px;
+        }
+
+        &.fbv_installing {
+          &,
+          &:hover,
+          &:focus,
+          &:active {
+            background-color: #e4f7ff;
+            border-color: #e4f7ff;
+            color: $primary;
+            cursor: not-allowed;
+          }
+
+          i {
+            animation: rotate360 1s linear infinite both;
+          }
+        }
+      }
+    }
+
+    .fbv-ads-popup-open & {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+      visibility: visible;
+    }
+  }
+}
+
+.text-dots {
+  &::before,
+  &::after {
+    content: '.';
+  }
+
+  span,
+  &::before,
+  &::after {
+    animation: dotLoad 1s linear 1s infinite alternate;
+    opacity: 0.1;
+  }
+
+  &::before {
+    animation-delay: 0.5s;
+  }
+
+  &::after {
+    animation-delay: 1.5s;
+  }
+}
